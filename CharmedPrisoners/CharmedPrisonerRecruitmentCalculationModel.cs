@@ -24,9 +24,11 @@ namespace CharmedPrisoners
             float leaderCharisma = (float)mainParty.LeaderHero.GetSkillValue(charismaSkill);
             float charmRecruitmentChange = (leaderCharisma - ReferenceCharisma) / (4 * ReferenceCharisma); // 4 * to reduce scaling
 
+            float totalAdjustmentPercent = moraleRecruitmentChange + charmRecruitmentChange;
+            InformationManager.DisplayMessage(new InformationMessage(string.Format("Chance to recruit adjustment: {0}%", totalAdjustmentPercent * 100f)));
             for (int troopTier = 0; troopTier < referenceValues.Length; ++troopTier)
             {
-                referenceValues[troopTier] += (moraleRecruitmentChange + charmRecruitmentChange) * referenceValues[troopTier];
+                referenceValues[troopTier] += totalAdjustmentPercent * referenceValues[troopTier];
                 referenceValues[troopTier] = Mathf.Clamp(referenceValues[troopTier], MinimumValues[troopTier], MaximumValues[troopTier]);
             }
 
